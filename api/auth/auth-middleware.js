@@ -27,17 +27,16 @@ const only = role_name => (req, res, next) => {
   }
 }
 
-
 const checkUsernameExists = async (req, res, next) => {
   const { username } = req.body;
   const [user] = await findBy({ username });
   if (!user) {
     next({ status: 401, message: 'Invalid credentials' });
   } else {
+    req.body.user = user;
     next();
   }
 }
-
 
 const validateRoleName = (req, res, next) => {
   const { role_name } = req.body;
